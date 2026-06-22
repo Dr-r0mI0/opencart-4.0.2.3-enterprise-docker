@@ -3,13 +3,7 @@ set -e
 
 ADMIN_DIR="${OC_ADMIN_DIR:-admin}"
 
-# إذا طلب المستخدم تغيير مسار الأدمن، نقوم بتغيير اسم المجلد
-if [ "$ADMIN_DIR" != "admin" ] && [ -d "/var/www/html/admin" ]; then
-    mv /var/www/html/admin "/var/www/html/$ADMIN_DIR"
-fi
-
 CONFIG_FILE="/var/www/html/config.php"
-ADMIN_CONFIG_FILE="/var/www/html/$ADMIN_DIR/config.php"
 
 # قراءة المتغيرات أو تعيين الافتراضي
 DB_HOST=${DB_HOST:-mariadb-store}
@@ -60,6 +54,13 @@ if [ -d "/var/www/html/system/storage" ]; then
 fi
 
 echo "⚙️  تجهيز ملفات الإعدادات الديناميكية (Config & Code Separation)..."
+
+# تغيير مسار الأدمن إذا تم تعيينه
+if [ "$ADMIN_DIR" != "admin" ] && [ -d "/var/www/html/admin" ]; then
+    mv /var/www/html/admin "/var/www/html/$ADMIN_DIR"
+fi
+
+ADMIN_CONFIG_FILE="/var/www/html/$ADMIN_DIR/config.php"
 
 cat <<'EOF' > "$CONFIG_FILE"
 <?php
