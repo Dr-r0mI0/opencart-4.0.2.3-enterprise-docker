@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  opencart-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rami/opencart-enterprise:latest
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    ports:
+      - "${HOST_PORT}:80"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+    volumes:
+      - opencart_images:/var/www/html/image              # حجم مخصص ومستقل للصور
+      - opencart_storage:/var/www/html/system/storage    # حجم مخصص ومستقل للكاش والتحميلات والأمان
+    networks:
+      - presta-net
+
+volumes:
+  opencart_images:      # للحفاظ على صور المنتجات آمنة ومستقلة حتى لو تم تحديث الكود
+  opencart_storage:     # للحفاظ على إضافات المتجر والملفات المؤقتة آمنة ومستقلة
+
+networks:
+  presta-net:
+    external: true      # الشبكة الحالية للربط بقاعدة البيانات المشتركة
