@@ -20,14 +20,16 @@ services:
       - OC_ADMIN_PASS=${OC_ADMIN_PASS}
       - OC_ADMIN_DIR=${OC_ADMIN_DIR:-admin}
     volumes:
-      - opencart_images:/var/www/html/image              # حجم مخصص ومستقل للصور
-      - opencart_storage:/var/www/storage    # حجم مخصص ومستقل للكاش والتحميلات والأمان
+      - opencart_images:/var/www/html/image              # لحفظ الصور
+      - opencart_storage:/var/www/storage                # لحفظ التخزين
+      - opencart_extensions:/var/www/html/extension      # لحفظ الثيمات والإضافات
     networks:
       - presta-net
 
 volumes:
   opencart_images:      # للحفاظ على صور المنتجات آمنة ومستقلة حتى لو تم تحديث الكود
   opencart_storage:     # للحفاظ على إضافات المتجر والملفات المؤقتة آمنة ومستقلة
+  opencart_extensions:  # للحفاظ على الثيمات والإضافات (Extensions) عند تحديث الكونتينر
 
 networks:
   presta-net:

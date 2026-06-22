@@ -95,6 +95,7 @@ docker run -d \
   -e OC_ADMIN_PASS=adminpass123 \
   -v opencart_images_2:/var/www/html/image \
   -v opencart_storage_2:/var/www/storage \
+  -v opencart_extensions_2:/var/www/html/extension \
   rami/opencart-enterprise:latest
 ```
 
