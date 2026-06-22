@@ -39,6 +39,19 @@ if [ -d "/var/www/html/install" ]; then
     rm -rf /var/www/html/install
 fi
 
+# تأمين مجلد التخزين (Storage) بنقله خارج مسار الويب (Web Root)
+if [ -d "/var/www/html/system/storage" ]; then
+    echo "🔒 Securing storage directory..."
+    # التأكد من وجود المجلد الجديد
+    mkdir -p /var/www/storage
+    # إذا كان المجلد الجديد فارغاً (Volume جديد)، ننسخ محتويات التخزين الأصلية إليه
+    if [ ! -d "/var/www/storage/vendor" ]; then
+        cp -a /var/www/html/system/storage/. /var/www/storage/
+    fi
+    # حذف المجلد القديم الغير آمن
+    rm -rf /var/www/html/system/storage
+fi
+
 echo "⚙️  تجهيز ملفات الإعدادات الديناميكية (Config & Code Separation)..."
 
 cat <<'EOF' > "$CONFIG_FILE"
@@ -57,7 +70,7 @@ define('DIR_APPLICATION', DIR_OPENCART . 'catalog/');
 define('DIR_EXTENSION', DIR_OPENCART . 'extension/');
 define('DIR_IMAGE', DIR_OPENCART . 'image/');
 define('DIR_SYSTEM', DIR_OPENCART . 'system/');
-define('DIR_STORAGE', DIR_OPENCART . 'system/storage/');
+define('DIR_STORAGE', '/var/www/storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
@@ -95,7 +108,7 @@ define('DIR_EXTENSION', DIR_OPENCART . 'extension/');
 define('DIR_IMAGE', DIR_OPENCART . 'image/');
 define('DIR_SYSTEM', DIR_OPENCART . 'system/');
 define('DIR_CATALOG', DIR_OPENCART . 'catalog/');
-define('DIR_STORAGE', DIR_OPENCART . 'system/storage/');
+define('DIR_STORAGE', '/var/www/storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
@@ -116,5 +129,6 @@ define('DB_PREFIX', 'oc_');
 EOF
 
 chown -R www-data:www-data /var/www/html
+chown -R www-data:www-data /var/www/storage
 
 exec "$@"

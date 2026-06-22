@@ -18,7 +18,7 @@ services:
       - DB_PORT=${DB_PORT}
     volumes:
       - opencart_images:/var/www/html/image              # حجم مخصص ومستقل للصور
-      - opencart_storage:/var/www/html/system/storage    # حجم مخصص ومستقل للكاش والتحميلات والأمان
+      - opencart_storage:/var/www/storage    # حجم مخصص ومستقل للكاش والتحميلات والأمان
     networks:
       - presta-net
 
