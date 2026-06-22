@@ -25,8 +25,8 @@ This project implements a **Stateless Container & Stateful Data** architecture. 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/opencart-enterprise-docker.git
-   cd opencart-enterprise-docker
+   git clone https://github.com/YOUR_USERNAME/opencart-4.0.2.3-enterprise-docker.git
+   cd opencart-4.0.2.3-enterprise-docker
    ```
 
 2. **Configure Environment Variables:**
