@@ -16,6 +16,9 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
+      - OC_ADMIN_USER=${OC_ADMIN_USER}
+      - OC_ADMIN_PASS=${OC_ADMIN_PASS}
+      - OC_ADMIN_DIR=${OC_ADMIN_DIR:-admin}
     volumes:
       - opencart_images:/var/www/html/image              # حجم مخصص ومستقل للصور
       - opencart_storage:/var/www/storage    # حجم مخصص ومستقل للكاش والتحميلات والأمان

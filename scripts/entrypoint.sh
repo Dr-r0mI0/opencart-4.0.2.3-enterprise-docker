@@ -1,8 +1,15 @@
 #!/bin/bash
 set -e
 
+ADMIN_DIR="${OC_ADMIN_DIR:-admin}"
+
+# إذا طلب المستخدم تغيير مسار الأدمن، نقوم بتغيير اسم المجلد
+if [ "$ADMIN_DIR" != "admin" ] && [ -d "/var/www/html/admin" ]; then
+    mv /var/www/html/admin "/var/www/html/$ADMIN_DIR"
+fi
+
 CONFIG_FILE="/var/www/html/config.php"
-ADMIN_CONFIG_FILE="/var/www/html/admin/config.php"
+ADMIN_CONFIG_FILE="/var/www/html/$ADMIN_DIR/config.php"
 
 # قراءة المتغيرات أو تعيين الافتراضي
 DB_HOST=${DB_HOST:-mariadb-store}
@@ -101,9 +108,12 @@ $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 define('HTTP_SERVER', $protocol . '://' . $host . '/admin/');
 define('HTTP_CATALOG', $protocol . '://' . $host . '/');
 
+// OpenCart API
+define('OPENCART_SERVER', 'https://www.opencart.com/');
+
 // DIR
 define('DIR_OPENCART', '/var/www/html/');
-define('DIR_APPLICATION', DIR_OPENCART . 'admin/');
+define('DIR_APPLICATION', DIR_OPENCART . 'ADMIN_DIR_PLACEHOLDER/');
 define('DIR_EXTENSION', DIR_OPENCART . 'extension/');
 define('DIR_IMAGE', DIR_OPENCART . 'image/');
 define('DIR_SYSTEM', DIR_OPENCART . 'system/');
@@ -127,6 +137,9 @@ define('DB_DATABASE', getenv('DB_NAME'));
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_PREFIX', 'oc_');
 EOF
+
+# استبدال Placeholder بالمسار الفعلي للأدمن
+sed -i "s/ADMIN_DIR_PLACEHOLDER\//${ADMIN_DIR}\//g" "$ADMIN_CONFIG_FILE"
 
 chown -R www-data:www-data /var/www/html
 chown -R www-data:www-data /var/www/storage

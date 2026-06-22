@@ -61,6 +61,7 @@ This project implements a **Stateless Container & Stateful Data** architecture. 
 | `OC_ADMIN_USER` | OpenCart Admin Username (on first install) | `admin` |
 | `OC_ADMIN_PASS` | OpenCart Admin Password (on first install) | `admin` |
 | `OC_ADMIN_EMAIL`| OpenCart Admin Email (on first install) | `admin@localhost.com` |
+| `OC_ADMIN_DIR`  | Secure custom Admin Panel URL path | `admin-secure` (default: `admin`) |
 
 ---
 
