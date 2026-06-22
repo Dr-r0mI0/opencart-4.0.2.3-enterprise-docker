@@ -106,7 +106,7 @@ define('APPLICATION', 'Admin');
 // HTTP
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-define('HTTP_SERVER', $protocol . '://' . $host . '/admin/');
+define('HTTP_SERVER', $protocol . '://' . $host . '/ADMIN_DIR_PLACEHOLDER/');
 define('HTTP_CATALOG', $protocol . '://' . $host . '/');
 
 // OpenCart API
